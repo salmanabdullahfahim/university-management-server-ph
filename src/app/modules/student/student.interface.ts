@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export type Guardian = {
   fatherName: string;
   fatherOccupation: string;
@@ -22,6 +24,7 @@ export type LocalGuardian = {
 // 1. Create an interface representing a document in MongoDB.
 export type Student = {
   id: string;
+  user: Types.ObjectId;
   password: string;
   name: UserName;
   gender: 'male' | 'female' | 'other';
@@ -35,6 +38,5 @@ export type Student = {
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string;
-  isActive: 'active' | 'blocked';
   isDeleted: boolean;
 };
