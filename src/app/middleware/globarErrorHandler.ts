@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
-// ts-nocheck
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars*/
 const globalErrorHandler = (
   error: any,
   req: Request,
