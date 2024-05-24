@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import bcrypt from 'bcrypt';
+
 // import validator from 'validator';
 import {
   Guardian,
@@ -7,7 +7,6 @@ import {
   Student,
   UserName,
 } from './student.interface';
-import config from '../../config';
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
@@ -85,11 +84,6 @@ const studentSchema = new Schema<Student>(
       unique: true,
       ref: 'User',
     },
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-      maxlength: [20, 'Password can not exceed 20 characters'],
-    },
     name: {
       type: userNameSchema,
       required: [true, 'Name is required'],
@@ -155,25 +149,6 @@ const studentSchema = new Schema<Student>(
 // mongoose virtual
 studentSchema.virtual('fullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
-});
-
-// password hashing using pre
-
-studentSchema.pre('save', async function (next) {
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this;
-
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds),
-  );
-  next();
-});
-
-// after hashing password use post middleware to more secure password
-studentSchema.post('save', function (doc, next) {
-  doc.password = '';
-  next();
 });
 
 studentSchema.pre('find', function (next) {
