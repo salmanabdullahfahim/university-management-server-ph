@@ -8,7 +8,7 @@ const router = Router();
 const moduleRoutes = [
   { path: '/users', route: userRoutes },
   { path: '/students', route: StudentRoutes },
-  { path: '/academic-semester', route: AcademicSemesterRoutes },
+  { path: '/academic-semesters', route: AcademicSemesterRoutes },
 ];
 
 moduleRoutes.forEach((route) => {
