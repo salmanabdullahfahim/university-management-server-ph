@@ -26,8 +26,9 @@ const getAcademicSemesters = catchAsync(async (req, res) => {
 });
 
 const getAcademicSemester = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const result = await AcademicSemesterServices.getAcademicSemesterFromDB(id);
+  const { semesterId } = req.params;
+  const result =
+    await AcademicSemesterServices.getAcademicSemesterFromDB(semesterId);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
