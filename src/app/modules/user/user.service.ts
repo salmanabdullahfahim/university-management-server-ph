@@ -1,5 +1,5 @@
 import config from '../../config';
-import { TAcademicSemester } from '../academicSemester/academicSemester.interface';
+
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { Student } from '../student/student.interface';
 import { StudentModel } from '../student/student.model';
@@ -22,7 +22,9 @@ const createStudentIntoDB = async (password: string, studentData: Student) => {
   );
 
   // set student id
-  userData.id = await generateStudentId(admissionSemester);
+  if (admissionSemester) {
+    userData.id = await generateStudentId(admissionSemester);
+  } else console.log('admission semester not found');
 
   // create a user
   const newUser = await User.create(userData);
