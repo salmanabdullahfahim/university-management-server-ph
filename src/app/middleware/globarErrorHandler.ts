@@ -1,7 +1,8 @@
 import { ErrorRequestHandler } from 'express';
-import { ZodError, ZodIssue } from 'zod';
+import { ZodError } from 'zod';
 import { TErrorSource } from '../interface/error';
 import config from '../config';
+import handleZodError from '../errors/handleZodError';
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars*/
@@ -16,22 +17,6 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     },
   ];
 
-  const handleZodError = (error: ZodError) => {
-    const errorSources: TErrorSource = error.issues.map((issue: ZodIssue) => {
-      return {
-        path: issue?.path[issue.path.length - 1],
-        message: issue.message,
-      };
-    });
-
-    const statusCode = 400;
-    return {
-      statusCode,
-      message: 'validation error',
-      errorSources,
-    };
-  };
-
   if (error instanceof ZodError) {
     const simplifiedError = handleZodError(error);
 
@@ -40,6 +25,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     errorSources = simplifiedError?.errorSources;
   }
 
+  // ultimate return
   res.status(statusCode).json({
     success: false,
     message,
