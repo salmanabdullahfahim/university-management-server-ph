@@ -11,7 +11,9 @@ const createCourseValidationSchema = z.object({
     prefix: z.string().max(20),
     code: z.number(),
     credits: z.number(),
-    prerequisiteCourses: z.array(prerequisiteCoursesValidationSchema),
+    prerequisiteCourses: z
+      .array(prerequisiteCoursesValidationSchema)
+      .optional(),
   }),
 });
 
