@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { CourseSearchableFields } from './course.constant';
 import { TAssignFaculty, TCourse } from './course.interface';
-import { Course } from './course.model';
+import { AssignFacultiesToCourse, Course } from './course.model';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 
@@ -121,7 +121,7 @@ const assignFacultiesToCourseIntoDB = async (
   courseId: string,
   payload: Partial<TAssignFaculty>,
 ) => {
-  const result = await Course.findByIdAndUpdate(
+  const result = await AssignFacultiesToCourse.findByIdAndUpdate(
     courseId,
     {
       course: courseId,
