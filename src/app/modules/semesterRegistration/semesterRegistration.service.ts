@@ -79,11 +79,34 @@ const updateSemesterRegistrationIntoDB = async (
   }
 
   // check if registered semester is ended. if that we will not update anything
+  const currentSemesterStatus = isSemesterRegistrationExist?.status;
+  const requestedSemesterStatus = payload?.status;
 
-  const requestedSemesterStatus = isSemesterRegistrationExist?.status;
-
-  if (requestedSemesterStatus === 'ENDED') {
+  if (currentSemesterStatus === 'ENDED') {
     throw new AppError(httpStatus.BAD_REQUEST, 'The Semester is already ended');
+  }
+
+  //  UPCOMING -> ONGOING
+  //  ONGOING -> UPCOMING
+  //  ONGOING -> ENDED
+  if (
+    currentSemesterStatus === 'UPCOMING' &&
+    requestedSemesterStatus === 'ENDED'
+  ) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You can not directly update a semester from UPCOMING to ENDED',
+    );
+  }
+
+  if (
+    currentSemesterStatus === 'ONGOING' &&
+    requestedSemesterStatus === 'UPCOMING'
+  ) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You can not directly update a semester from ONGOING to UPCOMING',
+    );
   }
   const result = await SemesterRegistration.findByIdAndUpdate(id, payload, {
     new: true,
