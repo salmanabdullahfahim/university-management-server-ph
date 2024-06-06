@@ -8,7 +8,7 @@ const router = express.Router();
 router.post(
   '/create-semester-registration',
   validateRequest(
-    semesterRegistrationValidations.semesterRegistrationValidationSchema,
+    semesterRegistrationValidations.createSemesterRegistrationValidationSchema,
   ),
   semesterRegistrationController.createSemesterRegistration,
 );
@@ -18,6 +18,14 @@ router.get('/', semesterRegistrationController.getAllSemesterRegistrations);
 router.get(
   '/:id',
   semesterRegistrationController.getSingleSemesterRegistration,
+);
+
+router.patch(
+  '/:id',
+  validateRequest(
+    semesterRegistrationValidations.updateSemesterRegistrationValidationSchema,
+  ),
+  semesterRegistrationController.updateSemesterRegistration,
 );
 
 export const semesterRegistrationRoutes = router;
