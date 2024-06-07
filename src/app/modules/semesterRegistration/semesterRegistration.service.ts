@@ -4,6 +4,7 @@ import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { TSemesterRegistration } from './semesterRegistration.interface';
 import { SemesterRegistration } from './semesterRegistration.model';
 import QueryBuilder from '../../builder/QueryBuilder';
+import { SemesterStatus } from './semesterRegistration.constant';
 
 const createSemesterRegistrationIntoDB = async (
   payload: TSemesterRegistration,
@@ -82,7 +83,7 @@ const updateSemesterRegistrationIntoDB = async (
   const currentSemesterStatus = isSemesterRegistrationExist?.status;
   const requestedSemesterStatus = payload?.status;
 
-  if (currentSemesterStatus === 'ENDED') {
+  if (currentSemesterStatus === SemesterStatus.ENDED) {
     throw new AppError(httpStatus.BAD_REQUEST, 'The Semester is already ended');
   }
 
@@ -90,8 +91,8 @@ const updateSemesterRegistrationIntoDB = async (
   //  ONGOING -> UPCOMING
   //  ONGOING -> ENDED
   if (
-    currentSemesterStatus === 'UPCOMING' &&
-    requestedSemesterStatus === 'ENDED'
+    currentSemesterStatus === SemesterStatus.UPCOMING &&
+    requestedSemesterStatus === SemesterStatus.ENDED
   ) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
@@ -100,8 +101,8 @@ const updateSemesterRegistrationIntoDB = async (
   }
 
   if (
-    currentSemesterStatus === 'ONGOING' &&
-    requestedSemesterStatus === 'UPCOMING'
+    currentSemesterStatus === SemesterStatus.ONGOING &&
+    requestedSemesterStatus === SemesterStatus.UPCOMING
   ) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
