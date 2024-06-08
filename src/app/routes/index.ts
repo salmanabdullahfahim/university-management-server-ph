@@ -22,7 +22,7 @@ const moduleRoutes = [
   { path: '/academic-departments', route: AcademicDepartmentRoutes },
   { path: '/courses', route: CourseRoutes },
   { path: '/semester-registrations', route: semesterRegistrationRoutes },
-  { path: 'offered-courses', route: OfferedCourseRoutes },
+  { path: '/offered-courses', route: OfferedCourseRoutes },
 ];
 
 moduleRoutes.forEach((route) => {
