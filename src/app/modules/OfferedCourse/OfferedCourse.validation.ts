@@ -4,7 +4,6 @@ import { Days } from './OfferedCourse.constant';
 const createOfferedCourseValidationSchema = z.object({
   body: z.object({
     semesterRegistration: z.string(),
-    academicSemester: z.string(),
     academicDepartment: z.string(),
     academicFaculty: z.string(),
     course: z.string(),
