@@ -11,21 +11,21 @@ const loginUser = async (payload: TLoginUser) => {
   }
 
   // check if the user is deleted
-  // const isDeleted = isUserExists?.isDeleted;
-  // if (isDeleted) {
-  //   throw new AppError(httpStatus.FORBIDDEN, 'User is already deleted');
-  // }
+  const isDeleted = user?.isDeleted;
+  if (isDeleted) {
+    throw new AppError(httpStatus.FORBIDDEN, 'User is already deleted');
+  }
 
   // check if the user is blocked
-  // const isBlocked = isUserExists?.status === 'blocked';
-  // if (isBlocked) {
-  //   throw new AppError(httpStatus.FORBIDDEN, 'User is blocked');
-  // }
+  const isBlocked = user?.status === 'blocked';
+  if (isBlocked) {
+    throw new AppError(httpStatus.FORBIDDEN, 'User is blocked');
+  }
 
   // check if the password is matched
 
   if (!(await User.isPasswordMatched(payload?.password, user?.password))) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'Password is not matched');
+    throw new AppError(httpStatus.FORBIDDEN, 'Password is not matched');
   }
 };
 
