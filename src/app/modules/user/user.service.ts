@@ -134,7 +134,7 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
   //if password is not given , use deafult password
   userData.password = password || (config.default_Password as string);
 
-  //set student role
+  //set role
   userData.role = 'admin';
 
   const session = await mongoose.startSession();
