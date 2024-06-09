@@ -6,9 +6,7 @@ import bcrypt from 'bcrypt';
 
 const loginUser = async (payload: TLoginUser) => {
   //  check if the user exists
-  const isUserExists = await User.findOne({ id: payload?.id });
-
-  if (!isUserExists) {
+  if (!(await User.isUserExistsByCustomId(payload?.id))) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
 
