@@ -18,7 +18,7 @@ const auth = (...RequiredRole: TUserRole[]) => {
     // check if the token is valid
     const decoded = jwt.verify(
       token,
-      config.jwt_secret as string,
+      config.jwt_access_secret as string,
     ) as JwtPayload;
 
     const { userId, role, iat } = decoded;
