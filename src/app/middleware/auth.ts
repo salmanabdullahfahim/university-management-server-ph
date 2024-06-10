@@ -4,25 +4,30 @@ import AppError from '../errors/AppError';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
+import { TUserRole } from '../modules/user/user.interface';
 
-const auth = () => {
+const auth = (...RequiredRole: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
     // check if the token is come from client
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You Are Not Unauthorized😈');
+      throw new AppError(httpStatus.UNAUTHORIZED, 'You Are Not Unauthorized');
     }
 
     // check if the token is valid
     jwt.verify(token, config.jwt_secret as string, function (err, decoded) {
       // err
       if (err) {
-        throw new AppError(
-          httpStatus.UNAUTHORIZED,
-          'You Are Not Unauthorized😈',
-        );
+        throw new AppError(httpStatus.UNAUTHORIZED, 'You Are Not Unauthorized');
       }
-      // decoded undefined
+
+      const role = (decoded as JwtPayload).jwtPayload.role;
+      console.log(decoded);
+
+      if (RequiredRole && !RequiredRole.includes(role)) {
+        throw new AppError(httpStatus.UNAUTHORIZED, 'You Are Not Authorized😈');
+      }
+      // decoded
       req.user = decoded as JwtPayload;
       next();
     });
